@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <title>tmlib learning initial application.</title>
+
+    <link rel="apple-touch-icon-precomposed" href="public/image/icon.png"/>
+
+    <script src="public/js/tmlib.min.js" type="text/javascript"></script>    
+    <script type="text/javascript">
+      tm.main(function() {
+        var app = tm.app.CanvasApp("#world");
+        app.resizeWindow();
+        app.fitWindow();
+        app.background = "rgba(0, 0, 0, 1);"
+ 
+        var star = tm.app.Shape(64, 64);
+        star.canvas.setColorStyle("white", "yellow").fillStar(32, 32, 32, 5);
+        app.currentScene.addChild(star);
+
+        app.currentScene.update = function(app) {
+          star.x = app.pointing.x;
+          star.y = app.pointing.y;
+
+          if (app.pointing.getPointing() == true) {
+            star.rotation += 15;
+          } 
+        };
+
+        app.run();
+      }); 
+    </script>
+  </head>
+  <body>
+    <canvas id="world"></canvas>
+  </body>
+</html>
