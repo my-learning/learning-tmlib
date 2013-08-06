@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="https://rawgithub.com/phi-jp/tmlib.js/0.1.8/build/tmlib.min.js"></script>
+    <script type="text/javascript" src="http://dat-gui.googlecode.com/git/build/dat.gui.js"></script>
+    <script type="text/javascript" src="https://rawgithub.com/mrdoob/stats.js/master/src/Stats.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript">
+      var CIRCLE_RADIUS = 30;
+
+      var Circle = tm.createClass({
+        superClass: tm.app.CanvasElement,
+        init: function(color) {
+          this.superInit();
+          this.color = color;
+          this.v = tm.geom.Vector2(0, 0);
+        },
+
+        update: function(app) {
+          this.v.y += 0.25;
+
+          this.position.add(this.v);
+
+          var bottom = app.canvas.height - this.height / 2;
+          if (this.y > bottom) {
+            this.y = bottom;
+            this.v.y *= -0.99;
+          }
+        },
+
+        draw: function(c) {
+          c.globalCompositeOperation = "lighter";
+          c.fillStyle = this.color;
+          c.fillCircle(0, 0, CIRCLE_RADIUS);
+        }
+      });
+
+      $(function() {
+        var app = tm.app.CanvasApp("#world");
+        app.resizeWindow();
+        app.fitWindow();
+
+        app.currentScene.update = function(app) {
+          if (app.pointing.getPointingStart() == true) {
+            var c = Circle(
+              "hsla({0}, 75%, 50%, 0.75)".format(Math.rand(0, 360))
+            );
+            c.x = app.pointing.x;
+            c.y = app.pointing.y;
+            this.addChild(c);
+          }
+        };
+
+        app.run();
+      });
+    </script>
+  </head>
+  <body>
+    <canvas id="world" width="640" height="480"></canvas>  
+  </body>
+</html>
