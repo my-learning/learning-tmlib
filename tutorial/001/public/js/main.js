@@ -8,7 +8,7 @@ tm.main(function() {
   app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
   app.fitWindow();
-  app.background = "rgba(250, 250, 250, 1.0";
+  app.background = "rgba(250, 250, 250, 1.0)";
   app.replaceScene( GameScene() );
 });
 
